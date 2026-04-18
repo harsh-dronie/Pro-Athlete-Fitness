@@ -39,7 +39,7 @@ export async function deleteClient(id: string): Promise<void> {
 export async function listClients(filters?: { status?: string }): Promise<ClientWithStatus[]> {
   const clients = await Client.find();
   const mapped = clients.map((c) => {
-    const obj = c.toObject() as ClientWithStatus;
+    const obj = c.toObject() as unknown as ClientWithStatus;
     obj.expiryStatus = classifyExpiry(c.expiryDate);
     return obj;
   });
@@ -53,7 +53,7 @@ export async function listClients(filters?: { status?: string }): Promise<Client
 export async function getClient(id: string): Promise<ClientWithStatus> {
   const client = await Client.findById(id);
   if (!client) throw new Error('Client not found');
-  const obj = client.toObject() as ClientWithStatus;
+  const obj = client.toObject() as unknown as ClientWithStatus;
   obj.expiryStatus = classifyExpiry(client.expiryDate);
   return obj;
 }
