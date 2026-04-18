@@ -27,3 +27,9 @@ export async function fetchPlans() {
   if (!res.ok) throw new Error('Failed to fetch plans');
   return res.json();
 }
+
+export async function fetchHero() {
+  const res = await fetch(`${BASE_URL}/hero`);
+  if (!res.ok) throw new Error('Failed to fetch hero content');
+  return res.json();
+}

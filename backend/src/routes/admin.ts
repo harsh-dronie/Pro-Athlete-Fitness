@@ -10,6 +10,8 @@ import * as aboutController from '../controllers/aboutController';
 import * as leadController from '../controllers/leadController';
 import * as smsController from '../controllers/smsController';
 import * as planController from '../controllers/planController';
+import * as heroController from '../controllers/heroController';
+import { uploadHero } from '../middleware/upload';
 
 const router = Router();
 
@@ -49,5 +51,12 @@ router.get('/plans', planController.listAll);
 router.post('/plans', planController.create);
 router.put('/plans/:id', planController.update);
 router.delete('/plans/:id', planController.remove);
+
+// Hero images
+router.put(
+  '/hero',
+  uploadHero.fields([{ name: 'backgroundImage', maxCount: 1 }, { name: 'trainerImage', maxCount: 1 }]),
+  heroController.update
+);
 
 export default router;

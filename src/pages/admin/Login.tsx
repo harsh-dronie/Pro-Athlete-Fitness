@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
-import { Dumbbell, Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { login } from "@/lib/adminApi";
 
@@ -39,8 +39,8 @@ export default function AdminLogin() {
       >
         {/* Logo */}
         <div className="text-center mb-10">
-          <div className="w-16 h-16 bg-primary/10 border border-primary/30 flex items-center justify-center mx-auto mb-4">
-            <Dumbbell className="w-8 h-8 text-primary" />
+          <div className="flex items-center justify-center mx-auto mb-4">
+            <img src="/logo.png" alt="Pro Athlete Fitness" className="w-16 h-16 object-contain" />
           </div>
           <h1 className="text-3xl font-black uppercase tracking-tight">Admin Panel</h1>
           <p className="text-muted-foreground text-sm uppercase tracking-widest mt-1">Pro Athlete Fitness</p>

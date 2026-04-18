@@ -31,3 +31,9 @@ export const uploadAbout = multer({
   fileFilter,
   limits: { fileSize: MAX_SIZE },
 });
+
+export const uploadHero = multer({
+  storage: createStorage('uploads/hero/'),
+  fileFilter,
+  limits: { fileSize: MAX_SIZE },
+});

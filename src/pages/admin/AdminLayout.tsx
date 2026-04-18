@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, Outlet } from "react-router-dom";
-import { LayoutDashboard, Users, UserCheck, LogOut, Dumbbell, Menu, Bell, ImagePlus, UserCircle, CreditCard } from "lucide-react";
+import { LayoutDashboard, Users, UserCheck, LogOut, Menu, Bell, ImagePlus, UserCircle, CreditCard, Image } from "lucide-react";
 
 const navItems = [
   { path: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -10,6 +10,7 @@ const navItems = [
   { path: "/admin/transformations", label: "Transformations", icon: ImagePlus },
   { path: "/admin/about", label: "About", icon: UserCircle },
   { path: "/admin/plans", label: "Plans", icon: CreditCard },
+  { path: "/admin/hero", label: "Home Images", icon: Image },
 ];
 
 export default function AdminLayout() {
@@ -43,9 +44,7 @@ export default function AdminLayout() {
         {/* Logo */}
         <div className="p-6 border-b border-white/5">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-primary/10 border border-primary/30 flex items-center justify-center">
-              <Dumbbell className="w-5 h-5 text-primary" />
-            </div>
+            <img src="/logo.png" alt="Pro Athlete Fitness" className="w-9 h-9 object-contain" />
             <div>
               <p className="font-black uppercase text-sm tracking-tight">Pro Athlete</p>
               <p className="text-[10px] text-muted-foreground uppercase tracking-widest">Admin Panel</p>

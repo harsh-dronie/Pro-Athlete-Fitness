@@ -1,17 +1,37 @@
+import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
 import { Link } from "react-router-dom";
+import { fetchHero } from "@/lib/api";
+
+const DEFAULT_BG = "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop";
+const DEFAULT_TRAINER = "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?q=80&w=2070&auto=format&fit=crop";
+const BASE = "http://localhost:5001/";
 
 export default function Hero() {
+  const [bgImage, setBgImage] = useState(DEFAULT_BG);
+  const [trainerImage, setTrainerImage] = useState(DEFAULT_TRAINER);
+
+  useEffect(() => {
+    fetchHero().then((data) => {
+      if (data?.backgroundImageUrl) {
+        setBgImage(data.backgroundImageUrl.startsWith('http') ? data.backgroundImageUrl : BASE + data.backgroundImageUrl);
+      }
+      if (data?.trainerImageUrl) {
+        setTrainerImage(data.trainerImageUrl.startsWith('http') ? data.trainerImageUrl : BASE + data.trainerImageUrl);
+      }
+    }).catch(() => {});
+  }, []);
+
   return (
     <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
-      {/* Background Elements */}
+      {/* Background */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-transparent z-10" />
-        <img 
-          src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop" 
-          alt="Gym Background" 
+        <img
+          src={bgImage}
+          alt="Gym Background"
           className="w-full h-full object-cover grayscale opacity-40"
           referrerPolicy="no-referrer"
         />
@@ -34,7 +54,7 @@ export default function Hero() {
             <p className="text-muted-foreground text-lg md:text-xl max-w-xl mb-10 leading-relaxed">
               Premium personal training and fat loss programs designed for high-performers who demand excellence in every aspect of life.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4">
               <Link to="/plans">
                 <Button size="lg" className="rounded-none h-16 px-10 text-lg font-bold uppercase tracking-widest group">
@@ -51,7 +71,7 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8, duration: 1 }}
@@ -60,9 +80,9 @@ export default function Hero() {
             <div className="flex -space-x-4">
               {[1, 2, 3, 4].map((i) => (
                 <div key={i} className="w-12 h-12 rounded-full border-2 border-background overflow-hidden bg-muted">
-                  <img 
-                    src={`https://i.pravatar.cc/150?u=${i}`} 
-                    alt="Client" 
+                  <img
+                    src={`https://i.pravatar.cc/150?u=${i}`}
+                    alt="Client"
                     className="w-full h-full object-cover"
                     referrerPolicy="no-referrer"
                   />
@@ -83,14 +103,14 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Decorative Element */}
+      {/* Trainer Image */}
       <div className="absolute right-[-10%] bottom-[-10%] w-[60%] h-[80%] z-0 hidden lg:block">
-        <motion.img 
+        <motion.img
           initial={{ opacity: 0, x: 100 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, delay: 0.2 }}
-          src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?q=80&w=2070&auto=format&fit=crop" 
-          alt="Trainer" 
+          src={trainerImage}
+          alt="Trainer"
           className="w-full h-full object-contain grayscale brightness-75"
           referrerPolicy="no-referrer"
         />

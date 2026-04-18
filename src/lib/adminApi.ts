@@ -80,3 +80,18 @@ export const updatePlan = (id: string, data: object) =>
 
 export const deletePlan = (id: string) =>
   authFetch(`/admin/plans/${id}`, { method: 'DELETE' });
+
+// Hero Images
+export async function updateHeroImages(formData: FormData) {
+  const res = await fetch(`${BASE_URL}/admin/hero`, {
+    method: 'PUT',
+    headers: { Authorization: `Bearer ${getToken()}` },
+    body: formData,
+  });
+  if (res.status === 401) {
+    localStorage.removeItem('admin_token');
+    window.location.href = '/admin/login';
+    throw new Error('Unauthorized');
+  }
+  return res.json();
+}

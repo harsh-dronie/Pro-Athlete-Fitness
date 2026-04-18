@@ -12,6 +12,7 @@ import Reminders from "@/pages/admin/Reminders";
 import AdminTransformations from "@/pages/admin/Transformations";
 import AdminAbout from "@/pages/admin/About";
 import AdminPlans from "@/pages/admin/Plans";
+import AdminHero from "@/pages/admin/Hero";
 
 export default function App() {
   return (
@@ -30,6 +31,7 @@ export default function App() {
           <Route path="transformations" element={<AdminTransformations />} />
           <Route path="about" element={<AdminAbout />} />
           <Route path="plans" element={<AdminPlans />} />
+          <Route path="hero" element={<AdminHero />} />
         </Route>
       </Routes>
     </Router>
