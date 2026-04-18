@@ -4,8 +4,8 @@
   "type": "commonjs",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "npm install && tsc",
-    "start": "node dist/server.js",
+    "build": "echo 'No build needed'",
+    "start": "node -r tsx/cjs src/server.ts",
     "seed": "tsx scripts/seedAdmin.ts",
     "test": "jest"
   },
