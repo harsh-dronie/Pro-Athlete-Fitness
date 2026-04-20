@@ -1,5 +1,14 @@
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
 
+// Strips /api from base URL to get the root for static file serving
+const STATIC_BASE = BASE_URL.replace(/\/api$/, '');
+
+export function getImageUrl(url: string): string {
+  if (!url) return '';
+  if (url.startsWith('http')) return url;
+  return `${STATIC_BASE}/${url}`;
+}
+
 export async function fetchTransformations() {
   const res = await fetch(`${BASE_URL}/transformations`);
   if (!res.ok) throw new Error('Failed to fetch transformations');
@@ -17,6 +26,7 @@ export async function submitLead(data: { name: string; phone: string; goal?: str
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
+    signal: AbortSignal.timeout(60000), // 60 second timeout for cold starts
   });
   if (!res.ok) throw new Error('Failed to submit');
   return res.json();

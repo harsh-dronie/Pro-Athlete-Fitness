@@ -3,8 +3,7 @@ import { Upload, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { fetchHero } from "@/lib/api";
 import { updateHeroImages } from "@/lib/adminApi";
-
-const BASE = "http://localhost:5001/";
+import { getImageUrl } from "@/lib/api";
 
 export default function AdminHero() {
   const [current, setCurrent] = useState<{ backgroundImageUrl: string; trainerImageUrl: string } | null>(null);
@@ -48,12 +47,8 @@ export default function AdminHero() {
     }
   };
 
-  const currentBg = current?.backgroundImageUrl
-    ? (current.backgroundImageUrl.startsWith('http') ? current.backgroundImageUrl : BASE + current.backgroundImageUrl)
-    : "";
-  const currentTrainer = current?.trainerImageUrl
-    ? (current.trainerImageUrl.startsWith('http') ? current.trainerImageUrl : BASE + current.trainerImageUrl)
-    : "";
+  const currentBg = current?.backgroundImageUrl ? getImageUrl(current.backgroundImageUrl) : "";
+  const currentTrainer = current?.trainerImageUrl ? getImageUrl(current.trainerImageUrl) : "";
 
   return (
     <div>

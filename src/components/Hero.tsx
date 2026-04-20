@@ -4,10 +4,10 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
 import { Link } from "react-router-dom";
 import { fetchHero } from "@/lib/api";
+import { getImageUrl } from "@/lib/api";
 
 const DEFAULT_BG = "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop";
 const DEFAULT_TRAINER = "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?q=80&w=2070&auto=format&fit=crop";
-const BASE = "http://localhost:5001/";
 
 export default function Hero() {
   const [bgImage, setBgImage] = useState(DEFAULT_BG);
@@ -16,10 +16,10 @@ export default function Hero() {
   useEffect(() => {
     fetchHero().then((data) => {
       if (data?.backgroundImageUrl) {
-        setBgImage(data.backgroundImageUrl.startsWith('http') ? data.backgroundImageUrl : BASE + data.backgroundImageUrl);
+        setBgImage(getImageUrl(data.backgroundImageUrl));
       }
       if (data?.trainerImageUrl) {
-        setTrainerImage(data.trainerImageUrl.startsWith('http') ? data.trainerImageUrl : BASE + data.trainerImageUrl);
+        setTrainerImage(getImageUrl(data.trainerImageUrl));
       }
     }).catch(() => {});
   }, []);

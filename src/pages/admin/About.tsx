@@ -4,6 +4,8 @@ import { Plus, Trash2, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+const STATIC_BASE = BASE_URL.replace(/\/api$/, '');
+const getImageUrl = (url: string) => url?.startsWith('http') ? url : `${STATIC_BASE}/${url}`;
 function getToken() { return localStorage.getItem('admin_token'); }
 
 async function fetchAbout() {
@@ -42,7 +44,7 @@ export default function About() {
           bio: data.bio || '',
           milestones: data.milestones?.length ? data.milestones : [{ year: '', description: '' }],
         });
-        if (data.profileImageUrl) setProfilePreview(`http://localhost:5001/${data.profileImageUrl}`);
+        if (data.profileImageUrl) setProfilePreview(getImageUrl(data.profileImageUrl));
       }
     }).catch(console.error).finally(() => setLoading(false));
   }, []);

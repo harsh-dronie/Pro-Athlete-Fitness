@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useEffect, useState } from "react";
 import { fetchAbout, submitLead } from "@/lib/api";
+import { getImageUrl } from "@/lib/api";
 import { AnimatePresence } from "motion/react";
 
 interface TimelineItemProps {
@@ -51,8 +52,17 @@ export default function AboutTrainer() {
     e.preventDefault();
     if (!form.name || !form.phone) { setError("Name and phone are required."); return; }
     setError(""); setLoading(true);
-    try { await submitLead(form); setSubmitted(true); }
-    catch { setError("Something went wrong. Please try again."); }
+    try { 
+      await submitLead(form); 
+      setSubmitted(true); 
+    }
+    catch (err: any) { 
+      if (err.name === 'TimeoutError') {
+        setError("Server is waking up. Please try again in a moment.");
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
+    }
     finally { setLoading(false); }
   };
 
@@ -76,7 +86,7 @@ export default function AboutTrainer() {
   const trainerName = about?.trainerName || "Ronit Rajput";
   const bio = about?.bio || '"My journey wasn\'t about building a body; it was about building a mindset that refuses to quit."';
   const profileImage = about?.profileImageUrl
-    ? (about.profileImageUrl.startsWith('http') ? about.profileImageUrl : `http://localhost:5001/${about.profileImageUrl}`)
+    ? getImageUrl(about.profileImageUrl)
     : "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?q=80&w=2070&auto=format&fit=crop";
 
   const achievements = [
@@ -263,7 +273,7 @@ export default function AboutTrainer() {
                     </div>
                     {error && <p className="text-red-400 text-xs uppercase tracking-widest">{error}</p>}
                     <Button type="submit" disabled={loading} className="w-full rounded-none h-14 uppercase font-bold tracking-widest text-base mt-2">
-                      {loading ? "Submitting..." : "Submit & Get Started"}
+                      {loading ? "Submitting... (This may take up to 60 seconds)" : "Submit & Get Started"}
                       {!loading && <ArrowRight className="ml-2 w-4 h-4" />}
                     </Button>
                   </form>

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { fetchTransformations } from "@/lib/api";
+import { getImageUrl } from "@/lib/api";
 
 export default function Transformations() {
   const [transformations, setTransformations] = useState<any[]>([]);
@@ -38,12 +39,8 @@ export default function Transformations() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {preview.map((item, i) => {
-            const beforeImg = item.beforeImageUrl?.startsWith('http')
-              ? item.beforeImageUrl
-              : `http://localhost:5001/${item.beforeImageUrl}`;
-            const afterImg = item.afterImageUrl?.startsWith('http')
-              ? item.afterImageUrl
-              : `http://localhost:5001/${item.afterImageUrl}`;
+            const beforeImg = getImageUrl(item.beforeImageUrl);
+            const afterImg = getImageUrl(item.afterImageUrl);
 
             return (
               <motion.div

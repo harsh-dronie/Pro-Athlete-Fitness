@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchTransformations } from "@/lib/api";
+import { getImageUrl } from "@/lib/api";
 
 const TransformationCard = ({ transformation, index }: { transformation: any, index: number, key?: any }) => (
   <motion.div
@@ -153,8 +154,8 @@ export default function TransformationsPage() {
                   duration: item.duration,
                   result: item.resultDescription,
                   program: item.duration,
-                  beforeImg: item.beforeImageUrl?.startsWith('http') ? item.beforeImageUrl : `http://localhost:5001/${item.beforeImageUrl}`,
-                  afterImg: item.afterImageUrl?.startsWith('http') ? item.afterImageUrl : `http://localhost:5001/${item.afterImageUrl}`,
+                  beforeImg: getImageUrl(item.beforeImageUrl),
+                  afterImg: getImageUrl(item.afterImageUrl),
                 }} index={index} />
               ))}
             </div>

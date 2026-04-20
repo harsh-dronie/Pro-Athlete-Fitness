@@ -4,6 +4,8 @@ import { Plus, X, Trash2, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+const STATIC_BASE = BASE_URL.replace(/\/api$/, '');
+const getImageUrl = (url: string) => url?.startsWith('http') ? url : `${STATIC_BASE}/${url}`;
 
 function getToken() {
   return localStorage.getItem('admin_token');
@@ -86,9 +88,6 @@ export default function Transformations() {
     await deleteTransformation(id);
     fetchData();
   };
-
-  const getImageUrl = (url: string) =>
-    url?.startsWith('http') ? url : `http://localhost:5001/${url}`;
 
   return (
     <div className="space-y-6">
