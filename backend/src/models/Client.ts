@@ -27,7 +27,7 @@ const ClientSchema = new Schema<IClient>(
   { timestamps: true }
 );
 
-ClientSchema.index({ phone: 1 }, { unique: true });
+// Phone index already defined as unique in schema
 ClientSchema.index({ expiryDate: 1 });
 
 export default mongoose.model<IClient>('Client', ClientSchema);
