@@ -1,5 +1,9 @@
 # Pro Athlete Fitness - Gym Trainer Management System
 
+**Live URLs:**
+- Frontend: https://pro-athlete-fitness-steel.vercel.app
+- Backend: https://pro-athlete-fitness-1.onrender.com
+
 ## 🎯 Project Overview
 
 A full-stack web application for managing a personal training business. Features include client management, lead tracking, payment processing, SMS reminders, and dynamic content management for the public-facing website.
