@@ -2,7 +2,6 @@ name: Update Portfolio Submodule
 on:
   push:
     branches: [main]
-
 jobs:
   update-portfolio:
     runs-on: ubuntu-latest
@@ -10,9 +9,10 @@ jobs:
       - name: Checkout portfolio repo
         uses: actions/checkout@v4
         with:
-          repository: harsh-dronie/Portfolio
-          ssh-key: ${{ secrets.PORTFOLIO_DEPLOY_KEY }}
-          submodules: false
+          repository: Lakshya4392/portfolios
+          token: ${{ secrets.PORTFOLIO_PAT }}
+          persist-credentials: true
+          fetch-depth: 0
 
       - name: Update submodule pointer
         run: |
@@ -20,5 +20,5 @@ jobs:
           git config user.name "AG Bot"
           git submodule update --init --remote clients/pro-athlete-fitness
           git add clients/pro-athlete-fitness
-          git diff --cached --quiet || git commit -m "auto: update pro-athlete-fitness to $(date +%Y-%m-%d)"
+          git commit -m "auto: sync pro-athlete-fitness update" || echo "No changes to commit"
           git push
