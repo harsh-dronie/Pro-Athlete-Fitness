@@ -1,20 +1,48 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Pro Athlete Fitness — Master Repo
 
-# Run and deploy your AI Studio app
+A comprehensive management system for gym trainers and fitness businesses.
 
-This contains everything you need to run your app locally.
+## 📁 Project Structure
+- `src/`: Frontend React application.
+- `backend/`: Node.js/Express API.
+- `public/`: Static assets (images, fonts).
+- `docs/`: Project documentation (Brief, Decisions, Changelog).
+- `tests/`: Automated tests.
+- `scripts/`: Utility scripts for seeding and maintenance.
 
-View your app in AI Studio: https://ai.studio/apps/3f6bd672-ff82-4c4b-85e2-c8d24fe0d46c
+## 🚀 Local Development
 
-## Run Locally
+### Prerequisites
+- Node.js 18+
+- MongoDB (Local or Atlas)
 
-**Prerequisites:**  Node.js
+### 1. Backend Setup
+```bash
+cd backend
+npm install
+cp .env.example .env
+# Update .env with your MONGODB_URI and JWT_SECRET
+npm run dev
+```
 
+### 2. Frontend Setup
+```bash
+npm install
+npm run dev
+```
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+### 3. Seed Admin Data
+To create the initial admin user:
+```bash
+cd backend
+npm run seed
+```
+
+## 📄 Documentation
+For detailed information, please refer to the `docs/` folder:
+- [Project Brief](docs/BRIEF.md)
+- [Technical Decisions](docs/DECISIONS.md)
+- [Changelog](docs/CHANGELOG.md)
+
+---
+*Built with React, Node.js, and MongoDB.*

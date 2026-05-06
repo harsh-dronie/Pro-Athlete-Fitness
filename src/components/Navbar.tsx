@@ -2,11 +2,12 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,6 +16,11 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location]);
 
   const navLinks = [
     { name: "Programs", href: "/#services" },
@@ -26,17 +32,17 @@ export default function Navbar() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-background/80 backdrop-blur-lg border-b border-white/5 py-3" : "bg-transparent py-6"
+        isScrolled || isMobileMenuOpen ? "bg-background/95 backdrop-blur-lg border-b border-white/5 py-3" : "bg-transparent py-6"
       }`}
     >
       <div className="container mx-auto px-6 flex items-center justify-between">
-        <Link to="/">
+        <Link to="/" aria-label="Pro Athlete Fitness Home">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             className="flex items-center gap-2"
           >
-            <img src="/logo.png" alt="Pro Athlete Fitness" className="w-10 h-10 object-contain" />
+            <img src="/logo.png" alt="" className="w-10 h-10 object-contain" />
             <span className="font-display font-extrabold text-xl tracking-tighter uppercase">
               Pro Athlete <span className="text-primary">Fitness</span>
             </span>
@@ -66,10 +72,12 @@ export default function Navbar() {
 
         {/* Mobile Toggle */}
         <button
-          className="md:hidden text-foreground"
+          className="md:hidden text-foreground p-2"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-expanded={isMobileMenuOpen}
+          aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
         >
-          {isMobileMenuOpen ? <X /> : <Menu />}
+          {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
 
@@ -77,24 +85,24 @@ export default function Navbar() {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-secondary border-b border-white/5 overflow-hidden"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.2 }}
+            className="md:hidden absolute top-full left-0 right-0 bg-background border-b border-white/5 overflow-hidden shadow-2xl"
           >
             <div className="container mx-auto px-6 py-8 flex flex-col gap-6">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-lg font-bold uppercase tracking-widest hover:text-primary transition-colors"
+                  className="text-2xl font-black uppercase tracking-widest hover:text-primary transition-colors py-2 border-b border-white/5"
                 >
                   {link.name}
                 </a>
               ))}
-              <Link to="/plans" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button className="rounded-none w-full py-6 uppercase tracking-widest font-bold">
+              <Link to="/plans" className="mt-4">
+                <Button className="rounded-none w-full py-8 text-xl uppercase tracking-widest font-bold">
                   Join Now
                 </Button>
               </Link>

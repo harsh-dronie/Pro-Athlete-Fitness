@@ -9,6 +9,23 @@ import { useEffect, useState } from "react";
 import { fetchTransformations } from "@/lib/api";
 import { getImageUrl } from "@/lib/api";
 
+const SkeletonCard = () => (
+  <div className="bg-secondary/30 border border-white/5 overflow-hidden animate-pulse">
+    <div className="aspect-[4/3] bg-white/5" />
+    <div className="p-6 space-y-4">
+      <div className="flex justify-between">
+        <div className="h-6 w-1/2 bg-white/5 rounded" />
+        <div className="h-4 w-1/4 bg-white/5 rounded" />
+      </div>
+      <div className="h-4 w-1/3 bg-white/5 rounded" />
+      <div className="pt-4 border-t border-white/5 flex gap-4">
+        <div className="h-3 w-1/4 bg-white/5 rounded" />
+        <div className="h-3 w-1/4 bg-white/5 rounded" />
+      </div>
+    </div>
+  </div>
+);
+
 const TransformationCard = ({ transformation, index }: { transformation: any, index: number, key?: any }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
@@ -23,8 +40,10 @@ const TransformationCard = ({ transformation, index }: { transformation: any, in
         <img 
           src={transformation.beforeImg} 
           alt="Before" 
+          loading="lazy"
           className="w-full h-full object-cover grayscale brightness-75 group-hover:scale-110 transition-transform duration-700"
           referrerPolicy="no-referrer"
+          onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop' }}
         />
         <div className="absolute top-2 left-2">
           <Badge variant="outline" className="bg-black/60 backdrop-blur-md border-white/20 text-[10px] uppercase tracking-widest">Before</Badge>
@@ -35,8 +54,10 @@ const TransformationCard = ({ transformation, index }: { transformation: any, in
         <img 
           src={transformation.afterImg} 
           alt="After" 
+          loading="lazy"
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
           referrerPolicy="no-referrer"
+          onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1581009146145-b5ef03a7403f?q=80&w=2070&auto=format&fit=crop' }}
         />
         <div className="absolute top-2 right-2">
           <Badge className="bg-primary text-black border-none text-[10px] uppercase tracking-widest font-bold">After</Badge>
@@ -147,17 +168,21 @@ export default function TransformationsPage() {
           <div className="container mx-auto px-6">
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {loading ? (
-                <p className="text-muted-foreground col-span-3 text-center">Loading...</p>
-              ) : data.map((item, index) => (
-                <TransformationCard key={index} transformation={{
-                  name: item.clientName || 'Anonymous',
-                  duration: item.duration,
-                  result: item.resultDescription,
-                  program: item.duration,
-                  beforeImg: getImageUrl(item.beforeImageUrl),
-                  afterImg: getImageUrl(item.afterImageUrl),
-                }} index={index} />
-              ))}
+                <>
+                  {[...Array(6)].map((_, i) => <SkeletonCard key={i} />)}
+                </>
+              ) : (
+                data.map((item, index) => (
+                  <TransformationCard key={index} transformation={{
+                    name: item.clientName || 'Anonymous',
+                    duration: item.duration,
+                    result: item.resultDescription,
+                    program: item.duration,
+                    beforeImg: getImageUrl(item.beforeImageUrl),
+                    afterImg: getImageUrl(item.afterImageUrl),
+                  }} index={index} />
+                ))
+              )}
             </div>
           </div>
         </section>

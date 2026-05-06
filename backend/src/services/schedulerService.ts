@@ -34,4 +34,18 @@ export function startScheduler(): void {
     await runDailyReminders();
   }, { timezone: 'Asia/Kolkata' });
   console.log('[Scheduler] Daily SMS reminder job scheduled at 9:00 AM IST');
+
+  // Keep-alive ping every 10 minutes (only in production)
+  if (process.env.NODE_ENV === 'production') {
+    cron.schedule('*/10 * * * *', async () => {
+      try {
+        const url = process.env.APP_URL || 'https://pro-athlete-fitness-1.onrender.com';
+        const response = await fetch(`${url}/api/plans`);
+        console.log(`[Scheduler] Keep-alive ping sent - Status: ${response.status}`);
+      } catch (err: any) {
+        console.error('[Scheduler] Keep-alive ping failed:', err.message);
+      }
+    });
+    console.log('[Scheduler] Keep-alive ping scheduled every 10 minutes');
+  }
 }
